@@ -97,17 +97,33 @@ const experiences = [
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  const handleLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <span className="nav-logo">NK<span className="dot">.</span></span>
-      <div className="nav-links">
+      <button 
+        className={`hamburger ${mobileMenuOpen ? "active" : ""}`}
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+      <div className={`nav-links ${mobileMenuOpen ? "active" : ""}`}>
         {["About", "Skills", "Experience", "Contact"].map(s => (
-          <a key={s} href={`#${s.toLowerCase()}`}>{s}</a>
+          <a key={s} href={`#${s.toLowerCase()}`} onClick={handleLinkClick}>{s}</a>
         ))}
       </div>
     </nav>
